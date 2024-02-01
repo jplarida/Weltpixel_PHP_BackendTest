@@ -16,6 +16,8 @@ To send the email notifications through the php mailer package you can either us
 
 MongoDB (see database.json)
 
+## Test Details ##
+
 /**
  * 1. Get all orders from the database that are from Weltpixel
  * Hint: Utilize the Database implementation to connect and retrieve data;
