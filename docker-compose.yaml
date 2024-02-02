@@ -1,0 +1,59 @@
+#rules
+#base image/s
+# create a base images for our microservice structure
+#   This will hold the common directories for the microservice
+#   This will also hold the dependencies and will run composer 
+#   This base image will then be reused by all the microservices
+#   distinct microservice funtionality will be attached as volumes to there respective microservice containers
+#   this way downloading of common dependencies will happen only once and will be shared through the microservices in contrast with having individual composer to each microservices
+#     as what I can see on the project there will be the ff images: 
+#       baseimage-monolog-database
+#       baseimage-monolog-mailer
+#   base images will multiply according to library dependencies and its functionalities
+#   this base images will then be used by the microservices
+
+
+#database image
+# This will be an image for mongodb database
+#   
+#
+#
+
+#rabbitmq image
+# This will act as our orchestration for internal microservice interaction
+#
+#
+#
+
+#microservices:
+# OrderService
+#   this will hold the Methods and Properties with regards to Orders
+#     in this task that will only be  the FF: 
+#       -Get all orders
+#       -Update the order
+#
+# EmailService
+#   this will hold the sending of the email notification
+#
+#
+#
+
+#Other crucial structure
+#Shared/Utilities
+# This will contain common classes that can be reused by each microservices
+#   This will then be a volume attached to each microservices
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
