@@ -1,0 +1,17 @@
+{
+    "name": "weltpixel/test",
+
+    "require": {
+        "php-amqplib/php-amqplib": "^2.12",
+        "monolog/monolog": "^1.22",
+        "mongodb/mongodb": "^1.1"        
+    },
+    "autoload": {
+        "psr-4": {"Services\\": ""}
+    },
+    "config": {
+        "platform": {
+            "php": "7"
+        }
+    }
+}
