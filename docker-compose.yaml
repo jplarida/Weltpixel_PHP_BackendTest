@@ -26,6 +26,7 @@
 #
 
 #microservices:
+# the directories of each services will be attached as volumes to the microservices, this way we can achieve hot reload.
 # OrderService
 #   this will hold the Methods and Properties with regards to Orders
 #     in this task that will only be  the FF: 
