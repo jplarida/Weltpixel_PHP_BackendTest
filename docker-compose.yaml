@@ -52,6 +52,7 @@ networks:
     driver: bridge
 #end of microservice backbone
 #base images
+# concept is to create base images but anchoring it to the 2 crucial technology of monolog and rabbitmq
   # bi-mongo:
   #   image: we-supply-bi-mongo-image:latest
   #   container_name: we-supply-bi-mongo-image-container
