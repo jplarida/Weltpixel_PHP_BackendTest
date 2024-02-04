@@ -1,60 +1,84 @@
-#rules
-#base image/s
-# create a base images for our microservice structure
-#   This will hold the common directories for the microservice
-#   This will also hold the dependencies and will run composer 
-#   This base image will then be reused by all the microservices
-#   distinct microservice funtionality will be attached as volumes to there respective microservice containers
-#   this way downloading of common dependencies will happen only once and will be shared through the microservices in contrast with having individual composer to each microservices
-#     as what I can see on the project there will be the ff images: 
-#       baseimage-monolog-database
-#       baseimage-monolog-mailer
-#   base images will multiply according to library dependencies and its functionalities
-#   this base images will then be used by the microservices
+version: '3'
 
+services:
+#start of microservice backbone
+  mongo:
+    image: mongo:latest
+    container_name: we-supply-mongodb-container
+    #environment:
+    #  - MONGO_INITDB_ROOT_USERNAME=admin
+    #  - MONGO_INITDB_ROOT_PASSWORD=adminpassword
+    volumes:
+      - mongodb_data:/data/db
+    restart: on-failure
+    ports:
+      - "27017:27017"
+    networks:
+      - weltpixel_php_backendtest_app_network
+    command: ["mongod", "--bind_ip_all", "--port", "27017"]
+#admin:pass
+  mongodb-ui:
+    image: mongo-express:latest
+    container_name: we-supply-mongodb-ui-container
+    environment:
+      - MONGOCLIENT_CONNECTION_URL=mongo://admin:adminpassword@mongo:27017
+    ports:
+      - "8081:8081"
+    networks:
+      - weltpixel_php_backendtest_app_network
+    depends_on:
+      - mongo
+    restart: "unless-stopped"
 
-#database image
-# This will be an image for mongodb database
-#   
-#
-#
+#guest/guest
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: we-supply-rabbitmq-container
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+    ports:
+      - "25672:25672"
+      - "15672:15672"
+    networks:
+      - weltpixel_php_backendtest_app_network
+    restart: always
 
-#rabbitmq image
-# This will act as our orchestration for internal microservice interaction
-#
-#
-#
+volumes:
+  mongodb_data:
+  rabbitmq_data:
 
-#microservices:
-# the directories of each services will be attached as volumes to the microservices, this way we can achieve hot reload.
-# OrderService
-#   this will hold the Methods and Properties with regards to Orders
-#     in this task that will only be  the FF: 
-#       -Get all orders
-#       -Update the order
-#
-# EmailService
-#   this will hold the sending of the email notification
-#
-#
-#
+networks:
+  weltpixel_php_backendtest_app_network:
+    driver: bridge
+#end of microservice backbone
+#base images
+# concept is to create base images but anchoring it to the 2 crucial technology of monolog and rabbitmq
+  # bi-mongo:
+  #   image: we-supply-bi-mongo-image:latest
+  #   container_name: we-supply-bi-mongo-image-container
+  #   build:
+  #     context: ./microservices/baseimages/BI-monolog-database
+  #     dockerfile: Dockerfile.bi-mongo
+ 
+  # bi-mailer:
+  #   image: we-supply-bi-mailer-image:latest
+  #   container_name: we-supply-bi-mailer-image-container
+  #   build:
+  #     context: ./microservices/baseimages/BI-monolog-mailer
+  #     dockerfile: Dockerfile.bi-mailer
+#end of base images
+#start of microservices
+  # php_microservice_mongodb:
+  #   image: "mongodb/mongodb:1.7.2"
+  #   container_name: php_microservice_mongodb_container
+  #   networks:
+  #     - app_network
+  #   # Add other configuration as needed for your microservice
 
-#Other crucial structure
-#Shared/Utilities
-# This will contain common classes that can be reused by each microservices
-#   This will then be a volume attached to each microservices
-
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+  # php_microservice_phpmailer:
+  #   image: "phpmailer/phpmailer:^5.2"
+  #   container_name: php_microservice_phpmailer_container
+  #   networks:
+  #     - app_network
+  #   # Add other configuration as needed for your microservice
+#end of microservices
