@@ -6,14 +6,29 @@
         "monolog/monolog": "^1.22",
         "mongodb/mongodb": "1.7.2"
     },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "mockery/mockery": "^1.4.4",
+        "phpunit/phpunit": "^10.0"
+    },
     "autoload": {
         "psr-4": {
-            "Services\\": ""
+            "App\\": "app/"
         }
     },
     "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
         "platform": {
             "php": "7"
         }
-    }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

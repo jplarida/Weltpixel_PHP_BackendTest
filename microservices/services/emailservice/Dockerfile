@@ -1,0 +1,1 @@
+FROM bi-mailer:latest

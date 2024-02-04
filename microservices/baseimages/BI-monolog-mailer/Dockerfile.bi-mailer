@@ -1,0 +1,30 @@
+# Base Image with PHP 7.4 and necessary extensions
+FROM php:7.4
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Copy the application files to the container
+COPY . .
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y wget libzip-dev zip && \
+    docker-php-ext-configure zip && \
+    docker-php-ext-install zip && \
+    docker-php-ext-install sockets
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install application dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+#make sure that any newly added classes will recognizable by the app
+RUN composer dump-autoload 
+
+#cleanup
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+# Start the Apache web server
+CMD ["apache2-foreground"]
