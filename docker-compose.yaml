@@ -53,14 +53,14 @@ networks:
 #end of microservice backbone
 #base images
 # concept is to create base images but anchoring it to the 2 crucial technology of monolog and rabbitmq
-  # bi-mongo:
+  # BImongo:
   #   image: we-supply-bi-mongo-image:latest
   #   container_name: we-supply-bi-mongo-image-container
   #   build:
   #     context: ./microservices/baseimages/BI-monolog-database
   #     dockerfile: Dockerfile.bi-mongo
  
-  # bi-mailer:
+  # BImailer:
   #   image: we-supply-bi-mailer-image:latest
   #   container_name: we-supply-bi-mailer-image-container
   #   build:
