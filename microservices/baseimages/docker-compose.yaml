@@ -1,20 +1,33 @@
 version: '3'
 
 services:
-#base images
+#builder image
+  BIbuilder:
+    image: bi-builder-image:latest
+    build:
+      context: ./BI-coreapp
+      dockerfile: Dockerfile
+
 # concept is to create base images but anchoring it to the 2 crucial technology of monolog and rabbitmq
 # this will just be to a point of building the base image of the microservices
-  BImongo:
-    image: we-supply-bi-mongo-image:latest
-    container_name: we-supply-bi-mongo-image-container
+  BImongodb:
+    image: bi-mongodb-image:latest
+    container_name: check-image-container
     build:
-      context: ./BI-monolog-database
-      dockerfile: Dockerfile.bi-mongo
+      context: ./BI-mongodb
+      dockerfile: Dockerfile
 
-  BImailer:
-    image: we-supply-bi-mailer-image:latest
-    container_name: we-supply-bi-mailer-image-container
-    build:
-      context: ./BI-monolog-mailer
-      dockerfile: Dockerfile.bi-mailer
+  # BImongo:
+  #   image: we-supply-bi-mongo-image:latest
+  #   container_name: we-supply-bi-mongo-image-container
+  #   build:
+  #     context: ./BI-monolog-database
+  #     dockerfile: Dockerfile.bi-mongo
+
+  # BImailer:
+  #   image: we-supply-bi-mailer-image:latest
+  #   container_name: we-supply-bi-mailer-image-container
+  #   build:
+  #     context: ./BI-monolog-mailer
+  #     dockerfile: Dockerfile.bi-mailer
 #end of base images
